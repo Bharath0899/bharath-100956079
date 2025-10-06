@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+
 const db = require('./persistence');
 const getItems = require('./routes/getItems');
 const addItem = require('./routes/addItem');
@@ -14,17 +15,23 @@ app.post('/items', addItem);
 app.put('/items/:id', updateItem);
 app.delete('/items/:id', deleteItem);
 
-db.init().then(() => {
-    app.listen(3000, () => console.log('Listening on port 3000'));
-}).catch((err) => {
+// ✅ Cloud Run requires listening on the PORT env var
+const port = process.env.PORT || 8080;
+
+db.init()
+  .then(() => {
+    app.listen(port, () => console.log(`Listening on port ${port}`));
+  })
+  .catch((err) => {
     console.error(err);
     process.exit(1);
-});
+  });
 
+// Graceful shutdown (kept from template)
 const gracefulShutdown = () => {
-    db.teardown()
-        .catch(() => {})
-        .then(() => process.exit());
+  db.teardown()
+    .catch(() => {})
+    .then(() => process.exit(0));
 };
 
 process.on('SIGINT', gracefulShutdown);
