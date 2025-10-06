@@ -18,7 +18,7 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'assignment2'   # Cloud Run service name
+      - 'assignment2new'   # Cloud Run service name
       - '--image'
       - 'us-central1-docker.pkg.dev/assignment-2-474301/bharath-100956079/assignment2:${SHORT_SHA}'
       - '--region'
