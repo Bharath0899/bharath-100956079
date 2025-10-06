@@ -1,0 +1,19 @@
+# CI build: build + push image to Artifact Registry (us-central1)
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/assignment-2-474301/bharath-100956079/assignment2:${SHORT_SHA}'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/assignment-2-474301/bharath-100956079/assignment2:${SHORT_SHA}'
+
+images:
+  - 'us-central1-docker.pkg.dev/assignment-2-474301/bharath-100956079/assignment2:${SHORT_SHA}'
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
